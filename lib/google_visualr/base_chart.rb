@@ -39,8 +39,6 @@ module GoogleVisualr
 
     def to_js(element_id)
       js  = "\n<script type='text/javascript'>"
-      js << "\n  google.load('visualization','1', {packages: ['#{package_name}']});"
-      js << "\n  google.setOnLoadCallback(#{chart_function_name(element_id)});"
       js << "\n  function #{chart_function_name(element_id)}() {"
       js << "\n    #{@data_table.to_js}"
       js << "\n    var chart = new google.visualization.#{chart_name}(document.getElementById('#{element_id}'));"
@@ -49,6 +47,11 @@ module GoogleVisualr
       end
       js << "\n    chart.draw(data_table, #{js_parameters(@options)});"
       js << "\n  };"
+      js << "\n  function loadGoogleChart() {"
+      js << "\n   google.load('visualization','1', {packages: ['#{package_name}'], callback: #{chart_function_name(element_id)}});"
+      js << "\n  };"
+      js << "\n  $(document).ready(loadGoogleChart);"
+      js << "\n  $(document).on('page:load', loadGoogleChart);"
       js << "\n</script>"
       js
     end
