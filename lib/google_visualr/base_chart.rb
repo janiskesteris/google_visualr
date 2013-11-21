@@ -51,7 +51,6 @@ module GoogleVisualr
       js << "\n   google.load('visualization','1', {packages: ['#{package_name}'], callback: #{chart_function_name(element_id)}});"
       js << "\n  };"
       js << "\n  $(document).ready(loadGoogleChart);"
-      js << "\n  $(document).on('page:load', loadGoogleChart);"
       js << "\n</script>"
       js
     end
