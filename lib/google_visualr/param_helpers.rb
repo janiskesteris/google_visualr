@@ -27,6 +27,8 @@ module GoogleVisualr
     # Recursive typecasting when value is a hash.
     def typecast(value)
       case
+        when value.is_a?(Symbol)
+          return value
         when value.is_a?(String)
           return value.to_json
         when value.is_a?(Integer)   || value.is_a?(Float)
