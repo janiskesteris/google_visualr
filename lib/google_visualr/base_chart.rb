@@ -10,6 +10,7 @@ module GoogleVisualr
       @data_table = data_table
       send(:options=, options)
       @listeners  = []
+      @custom_functions = []
     end
 
     def chart_name
@@ -32,6 +33,10 @@ module GoogleVisualr
       @listeners << { :event => event.to_s, :callback => callback }
     end
 
+    def add_custom_function js
+      @custom_functions << js
+    end
+
     # Generates JavaScript and renders the Google Chart in the final HTML output.
     #
     # Parameters:
@@ -44,6 +49,9 @@ module GoogleVisualr
       js << "\n    var chart = new google.visualization.#{chart_name}(document.getElementById('#{element_id}'));"
       @listeners.each do |listener|
         js << "\n    google.visualization.events.addListener(chart, '#{listener[:event]}', #{listener[:callback]});"
+      end
+      @custom_functions.each do |custom_function|
+        js << "\n #{custom_function}"
       end
       js << "\n    chart.draw(data_table, #{js_parameters(@options)});"
       js << "\n  };"
