@@ -46,7 +46,7 @@ module GoogleVisualr
       js  = "\n<script type='text/javascript'>"
       js << "\n  function #{chart_function_name(element_id)}() {"
       js << "\n    #{@data_table.to_js}"
-      js << "\n    var chart = new google.visualization.#{chart_name}(document.getElementById('#{element_id}'));"
+      js << "\n    chart = new google.visualization.#{chart_name}(document.getElementById('#{element_id}'));"
       @listeners.each do |listener|
         js << "\n    google.visualization.events.addListener(chart, '#{listener[:event]}', #{listener[:callback]});"
       end
